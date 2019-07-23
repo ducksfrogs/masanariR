@@ -59,3 +59,11 @@ baseball$sf[baseball$year < 1954] <-0
 any(is.na(baseball$sf))
 baseball$hbp[is.na(baseball$hbp)] <- 0
 any(is.na(baseball$hbp))
+
+obp <- function(data){
+  c(OBP = with(data, sum(h+bb+hbp)/sum(ab+bb+hbp+sf)))
+}
+
+carrerOBP <- ddply(baseball, .variables = "id", .fun = obp)
+carrerOBP <- carrerOBP[order(carrerOBP$OBP, decreasing = TRUE),]
+head(carrerOBP, 10)
