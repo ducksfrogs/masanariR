@@ -1,0 +1,37 @@
+
+---
+title: "小児の体重について"
+output: 
+  pdf_document:
+    latex_engine: lualatex
+documentclass: ltjsarticle
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## データについて
+
+
+昭和11年の小児データはなく、統計がある昭和25年からのものから推定する。
+x軸を年（5年毎）昭和25年から平成（昭和として85年まで）y軸を体重とする。
+
+```{r, echo=FALSE}
+A <- c(18.8, 18.5, 19.0, 19.6, 19.9, 20.6, 21.1, 20.9, 21.2, 21.3, 22.4, 20.7, 21.2)
+b <- c(25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85)
+
+plot(b, A, xlab = "nenn", ylab = "weight")
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+ser <- lm(A~b)
+summary(ser)
+```
+上記の結果より６歳児の体重の予測は
+y = 0.05x +17.55
+の式で表せる。
