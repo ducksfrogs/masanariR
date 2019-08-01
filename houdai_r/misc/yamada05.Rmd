@@ -1,0 +1,26 @@
+---
+title: "data05yamada"
+author: "山田大輔"
+date: "2015年5月12日"
+output: word_document
+---
+
+表の作成。
+ファクターでは、levelで並び替えを行う。
+カテゴリー分けをする場合には、cutを使う。
+tableで表を作る。
+barplotで複数の列があると、積み上げ棒グラフになるので、グラフにしてみる。
+```{r}
+  pc01 <- read.csv("pc01.csv",h=T,row.names=1)
+  pc01$不安 <- factor(pc01$不安,levels=c("まったくそう思わない","あまりそう思わない","ややそう思う","とてもそう思う"))
+  pc01$年代 <- cut(pc01$年齢,breaks=c(0,30,40,50,60,120),labels=c("20代","30代","40代","50代","60代"))
+  addmargins(prop.table(table(pc01[,1],pc01[,3]),1),2)
+  barplot(t(prop.table(table(pc01[,1],pc01[,3]),1)),col=rainbow(4),hor=T)
+  addmargins(prop.table(table(pc01[,4],pc01[,3]),1),2)  barplot(t(prop.table(table(pc01[,4],pc01[,3]),1)),col=rainbow(4),hor=T)
+```
+
+```{r, echo=FALSE}
+plot(cars)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

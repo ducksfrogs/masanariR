@@ -1,0 +1,6 @@
+e1 <- cmdscale(eurodist,k=2,eig=F)
+summary(e1)
+plot(e1,type="p")
+text(e1,rownames(e1),pos=1)
+#library(ggmap)
+#ggmap(get_googlemap(center=c(10,50), scale=2, size=c(500, 500), zoom=4))
