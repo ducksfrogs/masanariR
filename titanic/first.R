@@ -12,3 +12,11 @@ train$Survived <- factor(train$Survived, levels = c(0,1), labels = c("Died", "Su
 
 SP <- table(train$Survived, train$Pclass)
 SP
+round(prop.table(SP,2), digits = 2)
+
+ggplot(train, aes(Age, fill=Survived)) +
+  geom_histogram() +
+  theme_igray() +
+  xlab("Age") +
+  scale_fill_discrete(name="Survived") +
+  ggtitle("Age vs Survived")
