@@ -2,11 +2,11 @@ library(psych)
 myfa<-function(X,m=1)
    {fa(r=X,nfactors=m,fm='ml',rotate='promax')}
 
-### ƒf[ƒ^‚Ì“Ç‚Ýž‚Ý‚ÆˆöŽq•ªÍ‚ÌŽÀs
+### ãƒ‡ãƒ¼ã‚¿ã®èª­ã¿è¾¼ã¿ã¨å› å­åˆ†æžã®å®Ÿè¡Œ
 (SDdat <- read.csv('dat/ski.csv',header=T,row.names=1))
 (SD_fa<-myfa(SDdat,3))
 
-### d‚Ý1‚Ì•û–@
+### é‡ã¿1ã®æ–¹æ³•
 Z<-scale(SDdat)
 Wu<-matrix(c(
 1,0,0,
@@ -20,40 +20,40 @@ Wu<-matrix(c(
 0,0,-1),9,3,byrow=T)
 (F0<-Z%*%Wu)
 
-colnames(F0) <-  c('•]‰¿','Šˆ“®«','—Í—Ê')
+colnames(F0) <-  c('è©•ä¾¡','æ´»å‹•æ€§','åŠ›é‡')
 round(F0,2)
 
-### ˆöŽqƒXƒRƒA‚Ì„’è’l‚ÌŽZo
-## Harman‚Ì•û–@
+### å› å­ã‚¹ã‚³ã‚¢ã®æŽ¨å®šå€¤ã®ç®—å‡º
+## Harmanã®æ–¹æ³•
 factor.scores(x=SDdat,f=SD_fa,method="Harman")
 
-# ˆöŽq•‰‰×‚ð‚»‚Ì‚Ü‚Üd‚Ý‚Æ‚·‚é•û–@
+# å› å­è² è·ã‚’ãã®ã¾ã¾é‡ã¿ã¨ã™ã‚‹æ–¹æ³•
 factor.scores(x=SDdat,f=SD_fa,method="components")
 
-## Thurstone‚Ì•û–@
+## Thurstoneã®æ–¹æ³•
 factor.scores(x=SDdat,f=SD_fa,method="Thurstone")
 
-# ƒXƒNƒŠƒvƒg‚ðŽ©•ª‚Å‘‚­ê‡iã‚ÌŒ‹‰Ê‚Æˆê’v‚·‚éj
+# ã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚’è‡ªåˆ†ã§æ›¸ãå ´åˆï¼ˆä¸Šã®çµæžœã¨ä¸€è‡´ã™ã‚‹ï¼‰
 Z<-scale(SDdat);R<-cor(SDdat);iR<-solve(R);A<-SD_fa$loadings
 (Wt<-iR %*% A)
 (F13 <- Z %*% Wt)
 
-## Bartlett‚Ì•û–@
+## Bartlettã®æ–¹æ³•
 factor.scores(x=SDdat,f=SD_fa,method="Bartlett")
 
 
-### ”Æßƒf[ƒ^‚Ì•ªÍ
-(crime <- read.csv('dat/”Æß.csv',header=T,row.names=1))
+### çŠ¯ç½ªãƒ‡ãƒ¼ã‚¿ã®åˆ†æž
+(crime <- read.csv('dat/çŠ¯ç½ª.csv',header=T,row.names=1))
 (crimedat<-log(crime))
 (crime_fa<-myfa(crimedat,2))
 cor(crimedat)
 
-## Bartlett‚Ì•û–@‚É‚æ‚éˆöŽqƒXƒRƒA‚Ì„’è’l‚ÌŽZo
+## Bartlettã®æ–¹æ³•ã«ã‚ˆã‚‹å› å­ã‚¹ã‚³ã‚¢ã®æŽ¨å®šå€¤ã®ç®—å‡º
 Z<-scale(crimedat);A<-crime_fa$loadings 
 D2<-diag(crime_fa$uniquenesses); iD2<-solve(D2)
 (Wb<-iD2%*%A%*%solve(t(A)%*%iD2%*%A))
 (F3<-Z%*%Wb)
 
-## }‚Ìì¬
-plot(F3,type="n",ylim=c(-3.5,3.5),xlim=c(-3.5,3.5),xlab="‘Î•¨”Æß",ylab="‘Îl”Æß")
+## å›³ã®ä½œæˆ
+plot(F3,type="n",ylim=c(-3.5,3.5),xlim=c(-3.5,3.5),xlab="å¯¾ç‰©çŠ¯ç½ª",ylab="å¯¾äººçŠ¯ç½ª")
 text(F3[,1],F3[,2],rownames(crimedat),cex=0.8)

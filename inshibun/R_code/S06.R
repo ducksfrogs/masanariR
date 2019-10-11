@@ -1,26 +1,26 @@
 library(psych); library(GPArotation)
 
-# uƒXƒL[êƒf[ƒ^v‚Ì“Ç‚Ýž‚Ý
+# ã€Œã‚¹ã‚­ãƒ¼å ´ãƒ‡ãƒ¼ã‚¿ã€ã®èª­ã¿è¾¼ã¿
 SDdat <- read.csv('dat/ski.csv', header=T, row.names=1)
 
-# uƒXƒL[êƒf[ƒ^v‚ÌˆöŽq•ªÍ
-fa(SDdat, nfactors=3, rotate="varimax", fm="ml")      # ƒoƒŠƒ}ƒbƒNƒX‰ñ“]
-fa(SDdat, nfactors=3, rotate="quartimax", fm="ml")    # ƒR[ƒeƒBƒ}ƒbƒNƒX‰ñ“]
-fa(SDdat, nfactors=3, rotate="geominT", fm="ml")      # ’¼ŒðƒWƒIƒ~ƒ“‰ñ“]
-fa(SDdat, nfactors=3, rotate="promax", fm="ml")       # ƒvƒƒ}ƒbƒNƒX‰ñ“]
-fa(SDdat, nfactors=3, rotate="oblimin", fm="ml")      # ƒIƒuƒŠƒ~ƒ“‰ñ“]
-fa(SDdat, nfactors=3, rotate="biquartimin", fm="ml")  # ƒoƒCƒR[ƒeƒBƒ~ƒ“‰ñ“]
-fa(SDdat, nfactors=3, rotate="simplimax", fm="ml")    # ƒVƒ“ƒvƒŠƒ}ƒbƒNƒX‰ñ“]
-fa(SDdat, nfactors=3, rotate="geominQ", fm="ml")      # ŽÎŒðƒWƒIƒ~ƒ“‰ñ“]
+# ã€Œã‚¹ã‚­ãƒ¼å ´ãƒ‡ãƒ¼ã‚¿ã€ã®å› å­åˆ†æž
+fa(SDdat, nfactors=3, rotate="varimax", fm="ml")      # ãƒãƒªãƒžãƒƒã‚¯ã‚¹å›žè»¢
+fa(SDdat, nfactors=3, rotate="quartimax", fm="ml")    # ã‚³ãƒ¼ãƒ†ã‚£ãƒžãƒƒã‚¯ã‚¹å›žè»¢
+fa(SDdat, nfactors=3, rotate="geominT", fm="ml")      # ç›´äº¤ã‚¸ã‚ªãƒŸãƒ³å›žè»¢
+fa(SDdat, nfactors=3, rotate="promax", fm="ml")       # ãƒ—ãƒ­ãƒžãƒƒã‚¯ã‚¹å›žè»¢
+fa(SDdat, nfactors=3, rotate="oblimin", fm="ml")      # ã‚ªãƒ–ãƒªãƒŸãƒ³å›žè»¢
+fa(SDdat, nfactors=3, rotate="biquartimin", fm="ml")  # ãƒã‚¤ã‚³ãƒ¼ãƒ†ã‚£ãƒŸãƒ³å›žè»¢
+fa(SDdat, nfactors=3, rotate="simplimax", fm="ml")    # ã‚·ãƒ³ãƒ—ãƒªãƒžãƒƒã‚¯ã‚¹å›žè»¢
+fa(SDdat, nfactors=3, rotate="geominQ", fm="ml")      # æ–œäº¤ã‚¸ã‚ªãƒŸãƒ³å›žè»¢
 
-# uYG«ŠiŒŸ¸ƒf[ƒ^v‚Ì“Ç‚Ýž‚Ý
+# ã€ŒYGæ€§æ ¼æ¤œæŸ»ãƒ‡ãƒ¼ã‚¿ã€ã®èª­ã¿è¾¼ã¿
 YGdat <- read.csv('dat/YG3.csv', header=T, sep=',') 
 
-# uYG«ŠiŒŸ¸ƒf[ƒ^v‚ÌˆöŽq•ªÍ
-fa(YGdat, nfactors=2, rotate="promax", fm="ml")       # ƒvƒƒ}ƒbƒNƒX‰ñ“]
-fa(YGdat, nfactors=2, rotate="oblimin", fm="ml")      # ƒIƒuƒŠƒ~ƒ“‰ñ“]
-fa(YGdat, nfactors=2, rotate="simplimax", fm="ml")    # ƒVƒ“ƒvƒŠƒ}ƒbƒNƒX‰ñ“]
-fa(YGdat, nfactors=2, rotate="geominQ", fm="ml")      # ŽÎŒðƒWƒIƒ~ƒ“‰ñ“]
+# ã€ŒYGæ€§æ ¼æ¤œæŸ»ãƒ‡ãƒ¼ã‚¿ã€ã®å› å­åˆ†æž
+fa(YGdat, nfactors=2, rotate="promax", fm="ml")       # ãƒ—ãƒ­ãƒžãƒƒã‚¯ã‚¹å›žè»¢
+fa(YGdat, nfactors=2, rotate="oblimin", fm="ml")      # ã‚ªãƒ–ãƒªãƒŸãƒ³å›žè»¢
+fa(YGdat, nfactors=2, rotate="simplimax", fm="ml")    # ã‚·ãƒ³ãƒ—ãƒªãƒžãƒƒã‚¯ã‚¹å›žè»¢
+fa(YGdat, nfactors=2, rotate="geominQ", fm="ml")      # æ–œäº¤ã‚¸ã‚ªãƒŸãƒ³å›žè»¢
 
 
 
