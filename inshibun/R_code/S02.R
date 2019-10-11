@@ -1,31 +1,31 @@
-#1.4ß‚Å’è‹`‚³‚ê‚½myfaŠÖ”
+#1.4ç¯€ã§å®šç¾©ã•ã‚ŒãŸmyfaé–¢æ•°
 library(psych)
 library(psy)
  myfa<-function(X,m=1)
     {fa(r=X, nfactors=m, fm='ml', rotate='promax', scores=T)}
 
-#ƒf[ƒ^‚Ì“Ç‚İ‚İ(‘S37€–Ú)
+#ãƒ‡ãƒ¼ã‚¿ã®èª­ã¿è¾¼ã¿(å…¨37é …ç›®)
 SRdat<-read.csv("dat/SR2.csv", header=T)
 
-#omegaŒW”‚Ì’è‹`
+#omegaä¿‚æ•°ã®å®šç¾©
 omega.coef<-function(x,nfactors=1,fm="ml",...){
   1 - ( sum(fa(x,nfactors=nfactors,fm=fm,...)$uniquenesses*diag(var(x))) /
         sum(var(x)) )
 }
 
-#1ˆöq‰ğ‚ğZo‚·‚é
+#1å› å­è§£ã‚’ç®—å‡ºã™ã‚‹
 myfa(SRdat)
 
-#‘S37€–Ú‚Ìƒ¿M—Š«ŒW”‚ÆƒÖM—Š«ŒW”
+#å…¨37é …ç›®ã®Î±ä¿¡é ¼æ€§ä¿‚æ•°ã¨Ï‰ä¿¡é ¼æ€§ä¿‚æ•°
 cronbach(SRdat)
 omega.coef(SRdat)
 
-##ƒXƒNƒŠ[ƒeƒXƒg
-myscree<-function(r,b="S—“IƒXƒgƒŒƒX”½‰ƒf[ƒ^")
-@@{plot(fa(r)$e.values,type='o', xlab=b, ylab="ŒÅ—L’l")}
+##ã‚¹ã‚¯ãƒªãƒ¼ãƒ†ã‚¹ãƒˆ
+myscree<-function(r,b="å¿ƒç†çš„ã‚¹ãƒˆãƒ¬ã‚¹åå¿œãƒ‡ãƒ¼ã‚¿")
+ã€€ã€€{plot(fa(r)$e.values,type='o', xlab=b, ylab="å›ºæœ‰å€¤")}
 myscree(SRdat)
 
-#6‚Â‚Ì‰ºˆÊÚ“x‚²‚Æ‚Éˆöq•ªÍ
+#6ã¤ã®ä¸‹ä½å°ºåº¦ã”ã¨ã«å› å­åˆ†æ
 A_fac<-SRdat[c(4,10,12,16,19,27)]
 myfa(A_fac,1)
 cronbach(A_fac)
@@ -56,6 +56,6 @@ myfa(F_fac,1)
 cronbach(F_fac)
 omega.coef(F_fac)
 
-#ˆöq•ªÍi1ˆöq‰ğ‚©‚ç10ˆöq‰ğ‚Ü‚Åj
+#å› å­åˆ†æï¼ˆ1å› å­è§£ã‹ã‚‰10å› å­è§£ã¾ã§ï¼‰
 myfa(SRdat,2);myfa(SRdat,3);myfa(SRdat,4);myfa(SRdat,5);
 myfa(SRdat,6);myfa(SRdat,7);myfa(SRdat,8);myfa(SRdat,9);myfa(SRdat,10)

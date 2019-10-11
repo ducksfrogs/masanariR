@@ -1,78 +1,78 @@
-## �p�b�P�[�W�C���K�p�֐��C�f�[�^�̓ǂݍ���
+## パッケージ，実習用関数，データの読み込み
 library("polycor")
 library("psych")
 myfa<-function(X,m=1,...)
   {fa(r=X,nfactors=m,fm='ml',rotate='promax',...)}
-myscree<-function(r,b="�ŗL�l�̏���")
-{plot(fa(r)$e.values,type='o',xlab=b,ylab="�ŗL�l")}
-data.cont <- read.csv('dat/6�Ȗڊw��(�ʓI).csv', header=TRUE)
-data.disc <- read.csv('dat/6�Ȗڊw��(���I).csv', header=TRUE)
+myscree<-function(r,b="固有値の順位")
+{plot(fa(r)$e.values,type='o',xlab=b,ylab="固有値")}
+data.cont <- read.csv('dat/6科目学力(量的).csv', header=TRUE)
+data.disc <- read.csv('dat/6科目学力(質的).csv', header=TRUE)
 
 
-## �e�g���R���b�N���֌W��
-tetran <- polychor(x=data.disc$�ÓT, y=data.disc$�n�w, std.err=TRUE, ML=TRUE)
+## テトラコリック相関係数
+tetran <- polychor(x=data.disc$古典, y=data.disc$地学, std.err=TRUE, ML=TRUE)
 tetran$rho; tetran$row.cuts; tetran$col.cuts; tetran$var
 
 
-## �|���R���b�N���֌W��
-pola <- polychor(x=data.disc$�ÓT, y=data.disc$���㕶, std.err=TRUE, ML=TRUE)
+## ポリコリック相関係数
+pola <- polychor(x=data.disc$古典, y=data.disc$現代文, std.err=TRUE, ML=TRUE)
 pola$rho; pola$row.cuts; pola$col.cuts; pola$var
 
-polychor(x=data.disc$�ÓT, y=data.disc$����, std.err=FALSE, ML=TRUE)
-polychor(x=data.disc$�n�w, y=data.disc$���㕶, std.err=FALSE, ML=TRUE)
-polychor(x=data.disc$�n�w, y=data.disc$����, std.err=FALSE, ML=TRUE)
-polychor(x=data.disc$���㕶, y=data.disc$����, std.err=FALSE, ML=TRUE)
+polychor(x=data.disc$古典, y=data.disc$物理, std.err=FALSE, ML=TRUE)
+polychor(x=data.disc$地学, y=data.disc$現代文, std.err=FALSE, ML=TRUE)
+polychor(x=data.disc$地学, y=data.disc$物理, std.err=FALSE, ML=TRUE)
+polychor(x=data.disc$現代文, y=data.disc$物理, std.err=FALSE, ML=TRUE)
 
 
-## �o�C�V���A�����֌W��
-bicle <- polycor::polyserial(x=data.disc$�p��, y=data.disc$�ÓT, std.err=TRUE, ML=TRUE)
+## バイシリアル相関係数
+bicle <- polycor::polyserial(x=data.disc$英語, y=data.disc$古典, std.err=TRUE, ML=TRUE)
 bicle$rho; bicle$cuts; bicle$var
 
-polycor::polyserial(x=data.disc$���w, y=data.disc$�ÓT, std.err=FALSE, ML=TRUE)
-polycor::polyserial(x=data.disc$�p��, y=data.disc$�n�w, std.err=FALSE, ML=TRUE)
-polycor::polyserial(x=data.disc$���w, y=data.disc$�n�w, std.err=FALSE, ML=TRUE)
+polycor::polyserial(x=data.disc$数学, y=data.disc$古典, std.err=FALSE, ML=TRUE)
+polycor::polyserial(x=data.disc$英語, y=data.disc$地学, std.err=FALSE, ML=TRUE)
+polycor::polyserial(x=data.disc$数学, y=data.disc$地学, std.err=FALSE, ML=TRUE)
 
 
-## �|���V���A�����֌W��
-polastar <- polycor::polyserial(x=data.disc$�p��, y=data.disc$���㕶, std.err=TRUE, ML=TRUE)
+## ポリシリアル相関係数
+polastar <- polycor::polyserial(x=data.disc$英語, y=data.disc$現代文, std.err=TRUE, ML=TRUE)
 polastar$rho; polastar$cuts; polastar$var
 
-polycor::polyserial(x=data.disc$���w, y=data.disc$���㕶, std.err=FALSE, ML=TRUE)
-polycor::polyserial(x=data.disc$�p��, y=data.disc$����, std.err=FALSE, ML=TRUE)
-polycor::polyserial(x=data.disc$���w, y=data.disc$����, std.err=FALSE, ML=TRUE)
+polycor::polyserial(x=data.disc$数学, y=data.disc$現代文, std.err=FALSE, ML=TRUE)
+polycor::polyserial(x=data.disc$英語, y=data.disc$物理, std.err=FALSE, ML=TRUE)
+polycor::polyserial(x=data.disc$数学, y=data.disc$物理, std.err=FALSE, ML=TRUE)
 
 
-## �s�A�\���̐ϗ����֌W��
-cor(x=data.disc$�p��, y=data.disc$���w, use="complete.obs")
+## ピアソンの積率相関係数
+cor(x=data.disc$英語, y=data.disc$数学, use="complete.obs")
 
 
-## ���I���֌W���𗘗p�������֍s��̌v�Z
+## 質的相関係数を利用した相関行列の計算
 data.disc2 <- data.disc
-data.disc2$���㕶 <- as.factor(data.disc$���㕶)
-data.disc2$�ÓT <- as.factor(data.disc$�ÓT)
-data.disc2$���� <- as.factor(data.disc$����)
-data.disc2$�n�w <- as.factor(data.disc$�n�w)
+data.disc2$現代文 <- as.factor(data.disc$現代文)
+data.disc2$古典 <- as.factor(data.disc$古典)
+data.disc2$物理 <- as.factor(data.disc$物理)
+data.disc2$地学 <- as.factor(data.disc$地学)
 
 discor <- hetcor(data=data.disc2, std.err=TRUE, ML=TRUE, use="complete.obs")
 (cormt.disc <- discor$correlations)
 
 
-##�u6�Ȗڃf�[�^(�ʓI)�v�̑��֍s��
+##「6科目データ(量的)」の相関行列
 (cormt.cont <- cor(data.cont)) 
 
 
-## �u6�Ȗڃf�[�^(���I)�v����ϗ����֌W����p���ċ��߂��s�K�؂ȑ��֍s��
+## 「6科目データ(質的)」から積率相関係数を用いて求めた不適切な相関行列
 (cormt.bad <- cor(data.disc))
 
 
-## ���I���q���͂̎��s
+## 質的因子分析の実行
 myscree(cormt.disc)
 (result.disc <- myfa(X=cormt.disc, m=2, n.obs=1000))
 
 
-## ���I�ړx���܂ރf�[�^�ɁC�ʏ�̈��q���͂��s��
+## 質的尺度を含むデータに，通常の因子分析を行う
 (result.bad <- myfa(X=data.disc, m=2))
 
 
-## �A���ړx�݂̂��܂ރf�[�^�ɁC�ʏ�̈��q���͂��s��
+## 連続尺度のみを含むデータに，通常の因子分析を行う
 (result.cont <- myfa(X=data.cont, m=2))

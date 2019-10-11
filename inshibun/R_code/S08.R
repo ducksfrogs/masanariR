@@ -1,37 +1,37 @@
-### �f�[�^�ǂݍ���
+### データ読み込み
 YGdat<-read.csv("dat/YG3.csv",header=TRUE)
 
-### �P�ϗʃq�X�g�O����
+### 単変量ヒストグラム
 par(mfrow=c(4,3)) 
 for(i in 1:ncol(YGdat)){
-	hist(YGdat[,i],breaks=seq(0,20,by=1),ylim=c(0,150),xlab="���_",main=names(YGdat)[i],ylab="�x��")
+	hist(YGdat[,i],breaks=seq(0,20,by=1),ylim=c(0,150),xlab="得点",main=names(YGdat)[i],ylab="度数")
 }
 
-### �c�x�E��x�̎Z�o
+### 歪度・尖度の算出
 library(moments)
 round(skewness(YGdat),2)
 round(kurtosis(YGdat),2)
 
 
-### �c�x�E��x�̌���
+### 歪度・尖度の検定
 library(fBasics)
 X<-YGdat                  
 for(i in 1:ncol(X)){
-	cat(paste(colnames(X)[i],"�̌��茋��"))
+	cat(paste(colnames(X)[i],"の検定結果"))
 	print(dagoTest(X[,i]))
 }
 
-### ���ϗʊO��l
+### 多変量外れ値
 round(cor(YGdat),2)
 round(solve(cor(YGdat)),2)
 Z<-apply(YGdat,2,scale)
 gi2<-diag(as.matrix(Z)%*%solve(cor(YGdat))%*%t(as.matrix(Z)))
 par(mfrow=c(1,1)) 
-hist(gi2,ylim=c(0,200),breaks=15,xlim=c(0,40),ylab="�x��",xlab="",main="")
+hist(gi2,ylim=c(0,200),breaks=15,xlim=c(0,40),ylab="度数",xlab="",main="")
 (out<-boxplot(gi2,horizontal=TRUE))
 (1:length(gi2))[gi2==max(out$out)]
 
-### ���C���[�W���֍s��
+### 反イメージ相関行列
 Antii<-function(R){
 	S<-diag(sqrt(1/diag(solve(R))))
 	Antiimat<-S%*%solve(R)%*%S
@@ -59,7 +59,7 @@ MSAj<-function(R){
     }
 round(MSAj(cor(YGdat)),2)
 
-### �M�����
+### 信頼区間
 library(psych)
 uniquenessCI<-function(dat,nfac,digits=3){
 	X<-dat;D_sig<-diag(sqrt(diag(var(X))));sig_inv<-1/(diag(var(X)))
@@ -73,16 +73,16 @@ uniquenessCI<-function(dat,nfac,digits=3){
 	+(2/(nrow(X)-1))*((result$uniqueness%*%t(result$uniqueness))*(cor(X)^2-2*D2hat))
 	SEuniqueV<-sqrt(diag(Lambda))
 	CI<-rbind(diag(D2hat)+1.96*SEuniqueV,diag(D2hat),diag(D2hat)-1.96*SEuniqueV)
-	rownames(CI)<-c("����l","����l","�����l");colnames(CI)<-colnames(X)
+	rownames(CI)<-c("上限値","推定値","下限値");colnames(CI)<-colnames(X)
 	print(round(CI,digits))
 }
 uniquenessCI(dat=YGdat,nfac=3,digits=2)
 
-### �c�����֍s��
+### 残差相関行列
 result<-fa(r=YGdat,nfactors=3,rotate="promax",residuals=TRUE,fm="ml")
 round(result$residual,2)
 
-### ����ɉe����^����ϑ��Ώۂƍł��e���̑傫�Ȋϑ��Ώۂ��������ꍇ�̐���l��r
+### 推定に影響を与える観測対象と最も影響の大きな観測対象を除いた場合の推定値比較
 X<-YGdat;nfac<-3
 result1<-fa(r=X,nfactors=nfac,rotate="promax",residuals=TRUE,fm="ml")
 Ahat<-matrix(result1$loadings[1:(ncol(X)*nfac)],ncol(X),nfac,byrow=FALSE)
@@ -91,7 +91,7 @@ D2hat<-diag(result1$uniqueness)
 Rhat<-Ahat%*%Phihat%*%t(Ahat)+D2hat
 Z<-apply(YGdat,2,scale)
 gi_2<-diag(Z%*%solve(Rhat)%*%t(Z))
-hist(gi_2,breaks=15,ylim=c(0,200),xlim=c(0,40),ylab="�x��",xlab="",main="")
+hist(gi_2,breaks=15,ylim=c(0,200),xlim=c(0,40),ylab="度数",xlab="",main="")
 BAfac<-function(dat,nfac,newdat=FALSE,digits=4){
 	X<-dat;d<-digits
 	result1<-fa(r=X,nfactors=nfac,rotate="promax", residuals=TRUE, fm="ml")
@@ -116,21 +116,21 @@ BAfac<-function(dat,nfac,newdat=FALSE,digits=4){
 }
 BAfac(dat=YGdat,nfac=3,newdat=FALSE,digits=2)
 
-### SMC�Ƌ��ʐ�
+### SMCと共通性
 round(smc(YGdat),2)
 result<-fa(r=YGdat,nfactors=3,rotate="promax",residuals=TRUE,fm="ml")
 round(result$communality,2)
 
-### ���q���̕ω��ɂ�鋤�ʐ��̕ω�
+### 因子数の変化による共通性の変化
 comchan<-function(dat,max_nf){
-	plot(smc(dat),pch=19,ylim=c(0,1),type="b",lty=1,xlab="�ϐ�",ylab="�Ǝ���",axes=FALSE)
+	plot(smc(dat),pch=19,ylim=c(0,1),type="b",lty=1,xlab="変数",ylab="独自性",axes=FALSE)
 	cat("SMC\n");print(round(smc(dat),2))
 	axis(1,at=1:ncol(dat),labels=1:ncol(dat),cex.axis=1.3)
 	axis(2,at=seq(0,1,by=0.1),labels=seq(0,1,by=0.1),cex.axis=1.1)
 	for(i in 1:max_nf){
 		par(new=TRUE)
 		result<-fa(r=dat,nfactors=i,rotate="promax",residuals=TRUE,fm="ml")
-		cat(paste("���q��=",i,"\n",sep=""));print(round(result$communality,2))
+		cat(paste("因子数=",i,"\n",sep=""));print(round(result$communality,2))
 		plot(result$communality,ylim=c(0,1),pch=i+1,type="c",lty=(i+1),xlab="",ylab="",axes=FALSE)
 		text(1:ncol(dat),result$communality,labels=i)
 	}

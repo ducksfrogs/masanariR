@@ -1,31 +1,31 @@
-# --- �Ŗސ���@
+# --- 最尤推定法
    ski <- matrix(scan("dat/ski.dat"),ncol=9,byrow=TRUE)
    p <- ncol(ski)
    m <- 3
    R <- cor(ski)
    library(psych)
    fa(ski, nfactors=m, rotate="none", fm="ml")
-# --- EM�A���S���Y���ɂ�鐄��
+# --- EMアルゴリズムによる推定
    A.Old <- matrix(rep(0.5, p*m),nrow=p,ncol=m)
    A.Old[1, 2:3] <- 0
    A.Old[2, 3] <- 0
-   D2.Old <- diag(R - A.Old %*% t(A.Old)); D2.Old <- diag(D2.Old) # --- �Ίp�s��
+   D2.Old <- diag(R - A.Old %*% t(A.Old)); D2.Old <- diag(D2.Old) # --- 対角行列
    I.m <- diag(1,m)
-   max.iter <- 1000 # --- �ő�J��Ԃ���
-   iter <- 1        # --- �J��Ԃ��̃J�E���^�[
-   tol <- 10^(-4)   # --- ����l�̕ω��̋��e�x
-   S.zz <- R        # --- S.zz�̏����t�����Ғl�̓f�[�^�̑��֍s��
-# --- �J��Ԃ��v�Z
+   max.iter <- 1000 # --- 最大繰り返し数
+   iter <- 1        # --- 繰り返しのカウンター
+   tol <- 10^(-4)   # --- 推定値の変化の許容度
+   S.zz <- R        # --- S.zzの条件付き期待値はデータの相関行列
+# --- 繰り返し計算
    while(iter < max.iter){
-   # --- E�X�e�b�v
+   # --- Eステップ
       Sigma <- A.Old %*% t(A.Old) + D2.Old
       delta <- t(A.Old) %*% solve(Sigma)
       S.zf.star <- S.zz %*% t(delta)
       S.ff.star <- delta %*% S.zz %*% t(delta) + (I.m - delta %*% A.Old )
-   # --- M�X�e�b�v
+   # --- Mステップ
       A.New <- S.zf.star %*% solve(S.ff.star)
       D2.New <- diag( S.zz - S.zf.star %*% solve(S.ff.star) %*% t(S.zf.star) )
-   # --- ����l�̕ω��̌���
+   # --- 推定値の変化の検討
       diff <- max(abs(A.New - A.Old), abs(D2.New - diag(D2.Old)))
       if(diff < tol) break;
       A.Old <- A.New
@@ -37,24 +37,24 @@
    A.New
    promax(A.New)
 
-# --- �ŏ�2��@
+# --- 最小2乗法
    Hol <- matrix(scan(file="dat/Holdat.dat"),ncol=9,byrow=TRUE)
-   fa(Hol, nfactors=3, rotate="none", fm="pa")  # --- �厲�@
-   fa(Hol, nfactors=3, rotate="none", fm="gls") # --- ��ʉ��ŏ�2��@
-# --- �厲�@�ɂ�鐄��
+   fa(Hol, nfactors=3, rotate="none", fm="pa")  # --- 主軸法
+   fa(Hol, nfactors=3, rotate="none", fm="gls") # --- 一般化最小2乗法
+# --- 主軸法による推定
    R <- cor(Hol)
    p <- 9
    m <- 3
    max.iter <- 1000
    tol <- 10^(-3);
-   D2.Old <- 1 / diag(solve(R)) # --- �Ǝ����̏����l
+   D2.Old <- 1 / diag(solve(R)) # --- 独自性の初期値
    iter <- 1
    while(iter < max.iter){
-      # --- �ŗL�l�ƌŗL�x�N�g���̌v�Z
+      # --- 固有値と固有ベクトルの計算
       E <- eigen(R - diag(D2.Old))
-      # --- A�̐���l
+      # --- Aの推定値
       A.tilde <- E$vec[, 1:m] %*% sqrt(diag(E$val[1:m], m))
-      # --- D^2�̍X�V
+      # --- D^2の更新
       D2.New <- diag(R - A.tilde %*% t(A.tilde)); diff <- max(abs(D2.New - D2.Old))
       if(diff < tol) break;
       D2.Old <- D2.New
@@ -63,24 +63,24 @@
    round(D2.New,4)
    round(A.tilde,4)
 #
-# --- �j���[�g���E���t�\���@�ɂ�鐄��
+# --- ニュートン・ラフソン法による推定
 #
-# --- �֐��̏���
+# --- 関数の準備
 #
    g <- function(d,E,m){
    #
-   # ���z�x�N�g���̌v�Z
+   # 勾配ベクトルの計算
    #
    # ------
-   # ���́F
+   # 入力：
    # ------
-   # d	�Ǝ��W��
-   # E	�ŗL�l�ƌŗL�x�N�g��
-   # m	���q��
+   # d	独自係数
+   # E	固有値と固有ベクトル
+   # m	因子数
    # ------
-   # �o�́F
+   # 出力：
    # ------
-   # g	���z�x�N�g��
+   # g	勾配ベクトル
    #
       Eval2 <- E$val[-(1:m)]
       Evec2 <- E$vec[, -(1:m)]
@@ -91,18 +91,18 @@
 
    sum.up.1 <- function(x, val1, vec1){
    #
-   # �w�V�A���s����v�Z���邽�߂̕⏕�֐�
+   # ヘシアン行列を計算するための補助関数
    #
    # ------
-   # ���́F
+   # 入力：
    # ------
-   # x		�傫�����ɕ��ׂ�(���q��+1)�Ԗڂ���̌ŗL�l
-   # val1		�傫����������q���Ԗڂ܂ł̌ŗL�l
-   # vec1		�Ή�����ŗL�x�N�g��
+   # x		大きい順に並べて(因子数+1)番目からの固有値
+   # val1		大きい方から因子数番目までの固有値
+   # vec1		対応する固有ベクトル
    # ------
-   # �o�́F
+   # 出力：
    # ------
-   # sum.up.1	�w�V�A���s��̈ꕔ�̌W��
+   # sum.up.1	ヘシアン行列の一部の係数
    #
       denom <- x - val1
       numer <- x + val1
@@ -114,18 +114,18 @@
 
    H.exact <- function(d,E,m){
    #
-   # �w�V�A���s��̌v�Z
+   # ヘシアン行列の計算
    #
    # ------
-   # ���́F
+   # 入力：
    # ------
-   # d	�Ǝ��W��
-   # E	�ŗL�l�ƌŗL�x�N�g��
-   # m	���q��
+   # d	独自係数
+   # E	固有値と固有ベクトル
+   # m	因子数
    # ------
-   # �o�́F
+   # 出力：
    # ------
-   # H	�w�V�A���s��
+   # H	ヘシアン行列
    #
       d <- as.vector(d)
       p <- length(d)
@@ -149,18 +149,18 @@
 
    H.approx <- function(d,E,m){
    #
-   # �w�V�A���s��̋ߎ����v�Z����
+   # ヘシアン行列の近似を計算する
    #
    # ------
-   # ���́F
+   # 入力：
    # ------
-   # d	�Ǝ��W��
-   # E	�ŗL�l�ƌŗL�x�N�g��
-   # m	���q��
+   # d	独自係数
+   # E	固有値と固有ベクトル
+   # m	因子数
    # ------
-   # �o�́F
+   # 出力：
    # ------
-   # H	�ߎ��w�V�A���s��
+   # H	近似ヘシアン行列
    #
       d <- as.vector(d)
       dd <- outer(d,d)
@@ -176,23 +176,23 @@
 
    update <- function(m, fit, d, direc, stepsize, n.try){
    #
-   # ����l�̍X�V
+   # 推定値の更新
    #
    # ------
-   # ���́F
+   # 入力：
    # ------
-   # m			���q��
-   # fit		�X�V�O�̌덷�֐��̒l
-   # d			�X�V�O�̓Ǝ��W��
-   # direc		�w�V�A���s��̋t�s��x���z�x�N�g�� H^(-1)g
-   # stepsize	�X�e�b�v�T�C�Y
-   # n.try		�X�e�b�v�T�C�Y�����񐔂̃J�E���^�[
+   # m			因子数
+   # fit		更新前の誤差関数の値
+   # d			更新前の独自係数
+   # direc		ヘシアン行列の逆行列x勾配ベクトル H^(-1)g
+   # stepsize	ステップサイズ
+   # n.try		ステップサイズ半減回数のカウンター
    # ------
-   # �o�́F
+   # 出力：
    # ------
-   # est		�X�V��̓Ǝ��W������l
-   # E			�X�V��̓Ǝ��W���ɂ��ŗL�l�ƌŗL�x�N�g��
-   # fit		�X�V��̌덷�֐��̒l
+   # est		更新後の独自係数推定値
+   # E			更新後の独自係数による固有値と固有ベクトル
+   # fit		更新後の誤差関数の値
    #
       d.New <- (d - (stepsize * direc))
       E.New <- eigen(R - diag(as.vector(d.New^2)), sym=TRUE)
@@ -201,7 +201,7 @@
             Recall(m=m, fit=fit, d=d, direc=direc,
                         stepsize=(stepsize/2), n.try=(n.try+1))
       }else if(n.try == 10){
-            stop("****** �X�e�b�v�T�C�Y�̔����񐔂�10�ɂȂ�܂��� ******\n")
+            stop("****** ステップサイズの半減回数が10になりました ******\n")
       }else{
             return(list(est=d.New, E=E.New, fit=fit.New))
       }
@@ -209,23 +209,23 @@
 
    ULS <- function(R, m, d, max.iter, tol){
    #
-   # �ŏ�2��@�ɂ��Ǝ��W���̐���
-   # �j���[�g���E���t�\���@�ɂ��덷�֐��̍ŏ���
+   # 最小2乗法による独自係数の推定
+   # ニュートン・ラフソン法による誤差関数の最小化
    #
    # ------
-   # ���́F
+   # 入力：
    # ------
-   # R			���֍s��
-   # m			���q��
-   # d			�Ǝ��W���̏����l
-   # max.iter	�ő�J��Ԃ���
-   # tol		�����
+   # R			相関行列
+   # m			因子数
+   # d			独自係数の初期値
+   # max.iter	最大繰り返し回数
+   # tol		収束基準
    # ------
-   # �o�́F
+   # 出力：
    # ------
-   # d.New		�Ǝ��W���̐���l�x�N�g��
-   # E.New		����l�����^�Ƃ���(R-D^2)�̌ŗL�l�ƌŗL�x�N�g��
-   # fit		�덷�֐��̒l
+   # d.New		独自係数の推定値ベクトル
+   # E.New		推定値を所与とした(R-D^2)の固有値と固有ベクトル
+   # fit		誤差関数の値
    #
       d.Old <- d
       E.Old <- eigen(R - diag(as.vector(d.Old^2)),sym=TRUE)
@@ -251,11 +251,11 @@
       return(list(d.New=as.vector(New$est), E.New=New$E, fit=New$fit))
    }
 #
-# --- �����l
+# --- 初期値
 #
    D2.Old <- 1 / diag(solve(R))
    d.Old <- sqrt(D2.Old)
-# --- �ŏ�2�搄��l
+# --- 最小2乗推定値
    out.ULS <- ULS(R=R, m=m, d=d.Old, max.iter=1000, tol=10^(-3))
    round(out.ULS$d.New^2,4)
    Evec <- out.ULS$E.New$vec
@@ -263,10 +263,10 @@
    A.ULS <- Evec[, 1:m] %*% diag(sqrt(Eval[1:m]))
    round(A.ULS, 4)
 #
-# --- �x�C�Y�I����@
+# --- ベイズ的推定法
 #
    library(MCMCpack); rika <- matrix(scan(file="dat/rika.dat"),ncol=4,byrow=TRUE)
    out.MCMC <- MCMCfactanal(rika, factors=1, burnin=25000, mcmc=50000,thin=5,
         lambda.constraints=list( V1=list(1,"+") ),l0=0,L0=1,a0=1,b0=0.15,seed=123123)
-# --- mcmc���������I�u�W�F�N�gout.MCMC�Ɋւ��ėv�񓝌v�ʂ��Z�o����
+# --- mcmc属性をもつオブジェクトout.MCMCに関して要約統計量を算出する
    summary(out.MCMC)

@@ -3,60 +3,60 @@ library(psych);library(GPArotation)
 myfa<-function(X,m=1)
    {fa(r=X,nfactors=m,fm='ml',rotate='promax')}
 
-#ƒf[ƒ^‚Ì“Ç‚Ýž‚Ý
+#ãƒ‡ãƒ¼ã‚¿ã®èª­ã¿è¾¼ã¿
 SDdat  <- read.csv('dat/ski.csv',header=T,row.names=1)
 YGdat  <- read.csv('dat/YG3.csv',header=T,sep=',')
 Holdat <- read.csv('dat/Hol.csv',header=T,sep=',')
 BFIdat <- read.csv('dat/BFI.csv',header=T,sep=',')
 
-#ƒXƒNƒŠ[ƒeƒXƒg
-myscree<-function(r,b="ŒÅ—L’l‚Ì‡ˆÊ")
-   {plot(fa(r)$e.values,type='o',xlab=b,ylab="ŒÅ—L’l")}
-myscree(SDdat,b="ƒXƒL[êƒf[ƒ^")
-myscree(Holdat,b="’m”\ŒŸ¸ƒf[ƒ^")
-myscree(YGdat,b="YG«ŠiŒŸ¸ƒf[ƒ^")
-myscree(BFIdat,b="«Ši•]‰¿ƒf[ƒ^")
+#ã‚¹ã‚¯ãƒªãƒ¼ãƒ†ã‚¹ãƒˆ
+myscree<-function(r,b="å›ºæœ‰å€¤ã®é †ä½")
+   {plot(fa(r)$e.values,type='o',xlab=b,ylab="å›ºæœ‰å€¤")}
+myscree(SDdat,b="ã‚¹ã‚­ãƒ¼å ´ãƒ‡ãƒ¼ã‚¿")
+myscree(Holdat,b="çŸ¥èƒ½æ¤œæŸ»ãƒ‡ãƒ¼ã‚¿")
+myscree(YGdat,b="YGæ€§æ ¼æ¤œæŸ»ãƒ‡ãƒ¼ã‚¿")
+myscree(BFIdat,b="æ€§æ ¼è©•ä¾¡ãƒ‡ãƒ¼ã‚¿")
 
-#ƒKƒbƒgƒ}ƒ“Šî€
+#ã‚¬ãƒƒãƒˆãƒžãƒ³åŸºæº–
 myeigen<-function(X)
-   {cat("ŒÅ—L’l(ƒKƒbƒgƒ}ƒ“Šî€)","\n")
+   {cat("å›ºæœ‰å€¤(ã‚¬ãƒƒãƒˆãƒžãƒ³åŸºæº–)","\n")
     round(eigen(cor(X))$values,3)}
 myeigen(SDdat)
 myeigen(Holdat)
 myeigen(YGdat)
 myeigen(BFIdat)
 
-#SMCŠî€
+#SMCåŸºæº–
 mySMC<-function(X,b="")
-   {cat("ŒÅ—L’l(SMC‚ð—˜—p‚µ‚½ŒÅ—L’l)","\n")
+   {cat("å›ºæœ‰å€¤(SMCã‚’åˆ©ç”¨ã—ãŸå›ºæœ‰å€¤)","\n")
     cor.X <- cor(X)
     diag(cor.X) <- smc(X)
     print(round(eigen(cor.X)$values,3))
-    plot(eigen(cor.X)$values,type='o',xlab=b,ylab="ŒÅ—L’l")}
-mySMC(SDdat,b="ƒXƒL[êƒf[ƒ^")
-mySMC(Holdat,b="’m”\ŒŸ¸ƒf[ƒ^")
-mySMC(YGdat,b="YG«ŠiŒŸ¸ƒf[ƒ^")
-mySMC(BFIdat,b="«Ši•]‰¿ƒf[ƒ^")
+    plot(eigen(cor.X)$values,type='o',xlab=b,ylab="å›ºæœ‰å€¤")}
+mySMC(SDdat,b="ã‚¹ã‚­ãƒ¼å ´ãƒ‡ãƒ¼ã‚¿")
+mySMC(Holdat,b="çŸ¥èƒ½æ¤œæŸ»ãƒ‡ãƒ¼ã‚¿")
+mySMC(YGdat,b="YGæ€§æ ¼æ¤œæŸ»ãƒ‡ãƒ¼ã‚¿")
+mySMC(BFIdat,b="æ€§æ ¼è©•ä¾¡ãƒ‡ãƒ¼ã‚¿")
 
-#•½s•ªÍ
-fa.parallel(SDdat ,fm="ml",fa="pc", n.iter=100,main="ƒXƒL[êƒf[ƒ^")
-fa.parallel(Holdat,fm="ml",fa="pc", n.iter=100,main="’m”\ŒŸ¸ƒf[ƒ^")
-fa.parallel(YGdat ,fm="ml",fa="pc", n.iter=100,main="YG«ŠiŒŸ¸ƒf[ƒ^")
-fa.parallel(BFIdat,fm="ml",fa="pc", n.iter=100,main="«Ši•]‰¿ƒf[ƒ^")
+#å¹³è¡Œåˆ†æž
+fa.parallel(SDdat ,fm="ml",fa="pc", n.iter=100,main="ã‚¹ã‚­ãƒ¼å ´ãƒ‡ãƒ¼ã‚¿")
+fa.parallel(Holdat,fm="ml",fa="pc", n.iter=100,main="çŸ¥èƒ½æ¤œæŸ»ãƒ‡ãƒ¼ã‚¿")
+fa.parallel(YGdat ,fm="ml",fa="pc", n.iter=100,main="YGæ€§æ ¼æ¤œæŸ»ãƒ‡ãƒ¼ã‚¿")
+fa.parallel(BFIdat,fm="ml",fa="pc", n.iter=100,main="æ€§æ ¼è©•ä¾¡ãƒ‡ãƒ¼ã‚¿")
 
-#MAPƒeƒXƒg
+#MAPãƒ†ã‚¹ãƒˆ
 VSS(SDdat,n=5)
 VSS(Holdat,n=5)
 VSS(YGdat,n=7)
 VSS(BFIdat,n=18)
 
-#VSSŠî€
-VSS(SDdat, n = 5, rotate = "promax", fm = "ml",title="ƒXƒL[êƒf[ƒ^")
-VSS(Holdat,n = 5, rotate = "promax", fm = "ml",title="’m”\ŒŸ¸ƒf[ƒ^")
-VSS(YGdat, n = 7, rotate = "promax", fm = "ml",title="YG«ŠiŒŸ¸ƒf[ƒ^")
-VSS(BFIdat,n = 15,rotate = "promax", fm = "ml",title="«Ši•]‰¿ƒf[ƒ^")
+#VSSåŸºæº–
+VSS(SDdat, n = 5, rotate = "promax", fm = "ml",title="ã‚¹ã‚­ãƒ¼å ´ãƒ‡ãƒ¼ã‚¿")
+VSS(Holdat,n = 5, rotate = "promax", fm = "ml",title="çŸ¥èƒ½æ¤œæŸ»ãƒ‡ãƒ¼ã‚¿")
+VSS(YGdat, n = 7, rotate = "promax", fm = "ml",title="YGæ€§æ ¼æ¤œæŸ»ãƒ‡ãƒ¼ã‚¿")
+VSS(BFIdat,n = 15,rotate = "promax", fm = "ml",title="æ€§æ ¼è©•ä¾¡ãƒ‡ãƒ¼ã‚¿")
 
-#î•ñ—Ê‹K€
+#æƒ…å ±é‡è¦æº–
 myIC <- function(x,M){
    IC_M <- matrix(0,2,M)
    for(k in 1:M){IC_M[1,k] <- myfa(x,m=k)$STATISTIC - 2*myfa(x,m=k)$dof}
@@ -78,6 +78,6 @@ myRMSEA(x=Holdat,M=5)
 myRMSEA(x=YGdat ,M=7)
 myRMSEA(x=BFIdat,M=18)
 
-#Å‘åˆöŽq”‚ðŒ©‚Â‚¯‚éŠÖ”
+#æœ€å¤§å› å­æ•°ã‚’è¦‹ã¤ã‘ã‚‹é–¢æ•°
 maxfacn <- function(p){floor( ((2*p+1)-sqrt(8*p+1))/2 )}
 maxfacn(3:15)

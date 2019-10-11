@@ -1,41 +1,41 @@
-#ƒ‰ƒCƒuƒ‰ƒŠ[‚Æƒf[ƒ^‚Ì“Ç‚Ýž‚Ý
+#ãƒ©ã‚¤ãƒ–ãƒ©ãƒªãƒ¼ã¨ãƒ‡ãƒ¼ã‚¿ã®èª­ã¿è¾¼ã¿
 library(psych)
-(—‰ÈŽŽŒ±dat <- read.csv('dat/—‰ÈŽŽŒ±.csv',header=T,row.names="¶“k"))
+(ç†ç§‘è©¦é¨“dat <- read.csv('dat/ç†ç§‘è©¦é¨“.csv',header=T,row.names="ç”Ÿå¾’"))
 
-# ƒqƒXƒgƒOƒ‰ƒ€
+# ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ 
 par(mfrow = c(2, 2))
-rika <- c("•¨—","‰»Šw","¶•¨","’nŠw")
+rika <- c("ç‰©ç†","åŒ–å­¦","ç”Ÿç‰©","åœ°å­¦")
 for(i in 1:4){
-hist(—‰ÈŽŽŒ±dat[,i],main=rika[i],breaks=seq(0,100,10),xlab="“¾“_",ylab="“x”",xlim=c(0,100),ylim=c(0,5))
+hist(ç†ç§‘è©¦é¨“dat[,i],main=rika[i],breaks=seq(0,100,10),xlab="å¾—ç‚¹",ylab="åº¦æ•°",xlim=c(0,100),ylim=c(0,5))
 }
 dev.off()
 
-# ŽU•z}
-plot(—‰ÈŽŽŒ±dat,xlim=c(20,100),ylim=c(20,100))
+# æ•£å¸ƒå›³
+plot(ç†ç§‘è©¦é¨“dat,xlim=c(20,100),ylim=c(20,100))
 
-# ŽZp•½‹Ï
-mean(—‰ÈŽŽŒ±dat)
+# ç®—è¡“å¹³å‡
+mean(ç†ç§‘è©¦é¨“dat)
 
-# ’†‰›’l
-apply(—‰ÈŽŽŒ±dat,2,median)
+# ä¸­å¤®å€¤
+apply(ç†ç§‘è©¦é¨“dat,2,median)
 
-# •W–{•ªŽU(u—‰ÈŽŽŒ±ƒf[ƒ^v‚Ìu•¨—v‚Ìê‡)
-sum((—‰ÈŽŽŒ±dat[1]-colMeans(—‰ÈŽŽŒ±dat)[1])^2)/10
-# •s•Î•ªŽU‚É‚Â‚¢‚Ä‚ÍŠÖ”var‚ð—p‚¢‚ÄCvar(—‰ÈŽŽŒ±dat[1])‚É‚æ‚Á‚Ä‹‚ß‚ç‚ê‚é
+# æ¨™æœ¬åˆ†æ•£(ã€Œç†ç§‘è©¦é¨“ãƒ‡ãƒ¼ã‚¿ã€ã®ã€Œç‰©ç†ã€ã®å ´åˆ)
+sum((ç†ç§‘è©¦é¨“dat[1]-colMeans(ç†ç§‘è©¦é¨“dat)[1])^2)/10
+# ä¸ååˆ†æ•£ã«ã¤ã„ã¦ã¯é–¢æ•°varã‚’ç”¨ã„ã¦ï¼Œvar(ç†ç§‘è©¦é¨“dat[1])ã«ã‚ˆã£ã¦æ±‚ã‚ã‚‰ã‚Œã‚‹
 
-# ‘½•Ï—Êƒf[ƒ^‚Ì•W–{•ªŽU‹¤•ªŽU‚ðŽZo‚·‚é
+# å¤šå¤‰é‡ãƒ‡ãƒ¼ã‚¿ã®æ¨™æœ¬åˆ†æ•£å…±åˆ†æ•£ã‚’ç®—å‡ºã™ã‚‹
 bvar <- function(x){(var(x)*(nrow(x)-1))/nrow(x)}   
-bvar(—‰ÈŽŽŒ±dat)
+bvar(ç†ç§‘è©¦é¨“dat)
 
-# •W€•Î·
-sqrt(diag(bvar(—‰ÈŽŽŒ±dat)))
+# æ¨™æº–åå·®
+sqrt(diag(bvar(ç†ç§‘è©¦é¨“dat)))
 
-# ƒf[ƒ^‚Ì•W€‰»
+# ãƒ‡ãƒ¼ã‚¿ã®æ¨™æº–åŒ–
 standscale <- function(x){t((t(x)-colMeans(x))/sqrt(diag(bvar(x))))}
-standscale(—‰ÈŽŽŒ±dat)
+standscale(ç†ç§‘è©¦é¨“dat)
 
-# ‘ŠŠÖŒW”
-cor(—‰ÈŽŽŒ±dat)
+# ç›¸é–¢ä¿‚æ•°
+cor(ç†ç§‘è©¦é¨“dat)
 
-# ‰ºˆÊW’c‚Ì‘ŠŠÖŒW”
-cor(—‰ÈŽŽŒ±dat[c(6,7,8,9,10),])
+# ä¸‹ä½é›†å›£ã®ç›¸é–¢ä¿‚æ•°
+cor(ç†ç§‘è©¦é¨“dat[c(6,7,8,9,10),])

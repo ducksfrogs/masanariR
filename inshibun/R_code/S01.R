@@ -2,24 +2,24 @@ library(psych)
 myfa<-function(X,m=1,...)
  {fa(r=X,nfactors=m,fm='ml',rotate='promax',...)}
 
-(—‰ÈŽŽŒ±dat <- read.csv('dat/—‰ÈŽŽŒ±.csv',header=T,row.names="¶“k"))
-(r_t_fa<-myfa(—‰ÈŽŽŒ±dat))
+(ç†ç§‘è©¦é¨“dat <- read.csv('dat/ç†ç§‘è©¦é¨“.csv',header=T,row.names="ç”Ÿå¾’"))
+(r_t_fa<-myfa(ç†ç§‘è©¦é¨“dat))
 r_t_fa$scores
 
 (SDdat <- read.csv('dat/ski.csv',header=T,row.names=1))
 (SD_fa<-myfa(SDdat,3))
 
 SD_sc <- SD_fa$scores
-colnames(SD_sc) <-  c('•]‰¿','Šˆ“®«','—Í—Ê')
+colnames(SD_sc) <-  c('è©•ä¾¡','æ´»å‹•æ€§','åŠ›é‡')
 round(SD_sc,2)
 
-plot(SD_sc[,'•]‰¿'],SD_sc[,'Šˆ“®«'],type='n',xlab="•]‰¿",ylab="Šˆ“®«")
-text(SD_sc[,'•]‰¿'],SD_sc[,'Šˆ“®«'],rownames(SD_sc),cex=0.8)
+plot(SD_sc[,'è©•ä¾¡'],SD_sc[,'æ´»å‹•æ€§'],type='n',xlab="è©•ä¾¡",ylab="æ´»å‹•æ€§")
+text(SD_sc[,'è©•ä¾¡'],SD_sc[,'æ´»å‹•æ€§'],rownames(SD_sc),cex=0.8)
 
-myscree<-function(r,b="ŒÅ—L’l‚Ì‡ˆÊ")
-   {plot(fa(r)$e.values,type='o',xlab=b,ylab="ŒÅ—L’l")}
+myscree<-function(r,b="å›ºæœ‰å€¤ã®é †ä½")
+   {plot(fa(r)$e.values,type='o',xlab=b,ylab="å›ºæœ‰å€¤")}
 
-myscree(—‰ÈŽŽŒ±dat)
+myscree(ç†ç§‘è©¦é¨“dat)
 myscree(SDdat)
 
 (YGdat <- read.csv('dat/YG3.csv',header=T,sep=','))
