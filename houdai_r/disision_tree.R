@@ -1,4 +1,4 @@
-data <- read.csv("data/exam.csv", row.names = 1)
+data <- read.csv("data/exam.csv", header = T, row.names = 1)
 install.packages("rpart")
 head(data)
 library(rpart)
